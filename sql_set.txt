@@ -1,0 +1,66 @@
+CREATE TABLE product (
+p_category TEXT,
+p_series01 TEXT,
+p_series02 TEXT,
+p_series03 TEXT,
+p_name TEXT NOT NULL,
+p_info TEXT
+);
+
+CREATE TABLE collection (
+name TEXT NOT NULL,
+time FLOAT,
+sampleRate INTEGER,
+rpm INTEGER,
+type_no INTEGER,
+sensor_no INTEGER
+);
+
+CREATE TABLE data (
+name TEXT NOT NULL,
+production_code TEXT NOT NULL,
+time DATETIME NOT NULL,
+rms FLOAT,
+skewness FLOAT,
+kurtosis FLOAT,
+crestfactor FLOAT,
+max FLOAT,
+min FLOAT,
+std FLOAT,
+UNIQUE (production_code(255))
+);
+
+CREATE TABLE bearing_type (
+t_no INTEGER,
+t_name TEXT
+);
+
+CREATE TABLE sensor (
+s_no INTEGER,
+s_name TEXT,
+SR_limit TEXT
+);
+
+CREATE TABLE eventLog (
+e_id INTEGER PRIMARY KEY,
+p_id INTEGER,
+e_type VARCHAR,
+e_duringTime INTEGER,
+e_trigger TEXT,
+time TIMESTAMP,
+FOREIGN KEY (p_id) REFERENCES product(p_id)
+);
+
+CREATE TABLE profile (
+AccountID TEXT,
+Password TEXT,
+Email TEXT,
+Permission TEXT
+);
+
+CREATE TABLE form (
+AccountID TEXT,
+Email TEXT,
+Time DATETIME,
+Content TEXT
+);
