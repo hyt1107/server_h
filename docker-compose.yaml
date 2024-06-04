@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: holdwell_test
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: holdwell527
+    ports:
+      - "3307:3306" # 避开使用3306端口
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - /databackup:/backup
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_container
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8080:80" # phpMyAdmin的访问端口
+
+  nodejs:
+    build: ./nodejs
+    container_name: nodejs_container
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: myuser
+      DB_PASSWORD: holdwell527
+      DB_NAME: holdwell_test
+    ports:
+      - "3000:3000" # API服务器的访问端口
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
