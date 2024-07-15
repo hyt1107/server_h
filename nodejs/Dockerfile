@@ -1,20 +1,16 @@
-# 使用 Node.js 的官方镜像
 FROM node:14
 
-# 创建工作目录
 WORKDIR /usr/src/app
 
-# 复制 package.json 和 package-lock.json
 COPY package*.json ./
-
-# 安装依赖
 RUN npm install
 
-# 复制应用程序代码
 COPY . .
 
-# 暴露应用程序运行的端口
+# Add this line to copy the wait-for-it script into the container
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
 EXPOSE 3000
 
-# 启动应用程序
 CMD ["node", "myservice.js"]

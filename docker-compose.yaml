@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   mysql:
-    image: mysql:latest
+    image: mysql:5.7
     container_name: mysql_container
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -12,7 +12,7 @@ services:
     ports:
       - "3307:3306" # 避开使用3306端口
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_datas:/var/lib/mysql
       - /databackup:/backup
 
   phpmyadmin:
@@ -37,6 +37,7 @@ services:
       - "3000:3000" # API服务器的访问端口
     depends_on:
       - mysql
+    command: ["./wait-for-it.sh", "mysql:3306", "--", "node", "myservice.js"]
 
 volumes:
-  mysql_data:
+  mysql_datas:
