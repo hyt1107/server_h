@@ -8,8 +8,8 @@ RUN npm install
 COPY . .
 
 # Add this line to copy the wait-for-it script into the container
-COPY wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh
+COPY wait-for-it.sh /usr/src/app/wait-for-it.sh
+RUN chmod +x /usr/src/app/wait-for-it.sh
 
 EXPOSE 3000
 

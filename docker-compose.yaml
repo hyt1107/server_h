@@ -10,7 +10,7 @@ services:
       MYSQL_USER: myuser
       MYSQL_PASSWORD: holdwell527
     ports:
-      - "3307:3306" # 避开使用3306端口
+      - "3307:3306"
     volumes:
       - mysql_datas:/var/lib/mysql
       - /databackup:/backup
@@ -22,7 +22,7 @@ services:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: root
     ports:
-      - "8080:80" # phpMyAdmin的访问端口
+      - "8080:80"
 
   nodejs:
     build: ./nodejs
@@ -34,10 +34,19 @@ services:
       DB_PASSWORD: holdwell527
       DB_NAME: holdwell_test
     ports:
-      - "3000:3000" # API服务器的访问端口
+      - "3000:3000"
     depends_on:
       - mysql
     command: ["./wait-for-it.sh", "mysql:3306", "--", "node", "myservice.js"]
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - "80:80"
+    volumes:
+      - ./vue_web/dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
 
 volumes:
   mysql_datas:
